@@ -43,6 +43,6 @@ CREATE TABLE compras_productos (
     cantidad INT,
     total DECIMAL(16.2),
     estado TINYINT,
-    Foreign Key (id_compra) REFERENCES compra(id_compra),
+    Foreign Key (id_compra) REFERENCES compras(id_compra),
     Foreign Key (id_producto) REFERENCES productos(id_producto)
 );

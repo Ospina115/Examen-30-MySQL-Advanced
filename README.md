@@ -223,3 +223,72 @@ Consultar los proveedores que han suministrado productos y la cantidad total sum
 
 ```
 
+
+
+
+
+## Subconsultas
+
+Consultar los productos que tienen un precio de venta superior al precio promedio de todos
+los productos
+
+```
+
+```
+
+Consultar los clientes que han gastado más del promedio general en sus compras
+
+```
+
+```
+
+Consultar las categorías que tienen más de 5 productos
+
+```
+
+```
+
+Consultar los productos más vendidos (top 5) por categoría
+
+```
+
+```
+
+Consultar los clientes que han realizado compras en los últimos 30 días
+
+```
+
+```
+
+Consultar las compras y sus productos para un cliente específico, mostrando solo las
+compras más recientes
+
+```
+
+```
+
+Consultar las categorías que tienen productos con un stock por debajo del promedio general
+
+```
+
+```
+
+Consultar los productos que han sido comprados por todos los clientes
+
+```
+
+```
+
+Consultar las compras que tienen más productos que el promedio de productos por compra
+
+```
+
+```
+
+Consultar los productos que se han vendido menos de la cantidad promedio de productos
+vendidos
+
+```
+
+```
+
