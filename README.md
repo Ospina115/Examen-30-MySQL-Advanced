@@ -281,7 +281,9 @@ Consultar los productos que tienen un precio de venta superior al precio promedi
 los productos
 
 ```sql
-
+SELECT id_producto, nombre, id_categoria, codigo_barras, precio_venta, cantidad_stock, estado
+FROM productos
+WHERE precio_venta > (SELECT AVG(precio_venta)FROM productos);
 ```
 
 Consultar los clientes que han gastado más del promedio general en sus compras
@@ -293,50 +295,117 @@ Consultar los clientes que han gastado más del promedio general en sus compras
 Consultar las categorías que tienen más de 5 productos
 
 ```sql
-
+SELECT id_categoria, descripcion, estado
+FROM categorias
+WHERE id_categoria IN (
+  SELECT id_categoria
+  FROM productos
+  GROUP BY id_categoria
+  HAVING COUNT(id_producto) > 5
+);
 ```
 
 Consultar los productos más vendidos (top 5) por categoría
 
 ```sql
-
+SELECT c.descripcion AS categoria, p.nombre AS producto, (SELECT SUM(cp.cantidad) FROM compras_productos cp WHERE cp.id_producto = p.id_producto) AS cantidad_vendida
+FROM productos p
+INNER JOIN categorias c ON p.id_categoria = c.id_categoria
+ORDER BY c.descripcion, cantidad_vendida DESC
+LIMIT 5;
 ```
 
 Consultar los clientes que han realizado compras en los últimos 30 días
 
 ```sql
-
+SELECT id_cliente, nombre, apellidos, celular, direccion, correo_electronico
+FROM clientes
+WHERE id_cliente IN (
+  SELECT id_cliente
+  FROM compras
+  WHERE fecha >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY)
+);
 ```
 
 Consultar las compras y sus productos para un cliente específico, mostrando solo las
 compras más recientes
 
 ```sql
-
+SELECT c.id_compra, c.fecha, cp.id_producto, p.nombre, cp.cantidad, cp.total
+FROM compras c
+INNER JOIN compras_productos cp ON c.id_compra = cp.id_compra
+INNER JOIN productos p ON cp.id_producto = p.id_producto
+WHERE c.id_cliente = 1
+AND c.fecha IN (
+  SELECT MAX(fecha)
+  FROM compras
+  WHERE id_cliente = 1
+);
 ```
 
 Consultar las categorías que tienen productos con un stock por debajo del promedio general
 
 ```sql
-
+SELECT c.id_categoria, c.descripcion
+FROM categorias c
+WHERE c.id_categoria IN (
+  SELECT p.id_categoria
+  FROM productos p
+  WHERE p.cantidad_stock < (
+    SELECT AVG(cantidad_stock)
+    FROM productos
+  )
+);
 ```
 
 Consultar los productos que han sido comprados por todos los clientes
 
 ```sql
-
+SELECT p.id_producto, p.nombre
+FROM productos p
+WHERE p.id_producto IN (
+  SELECT cp.id_producto
+  FROM compras_productos cp
+  GROUP BY cp.id_producto
+  HAVING COUNT(DISTINCT cp.id_compra) = (
+    SELECT COUNT(*)
+    FROM clientes
+  )
+);
 ```
 
 Consultar las compras que tienen más productos que el promedio de productos por compra
 
 ```sql
-
+SELECT c.id_compra, c.fecha, c.id_cliente, COUNT(cp.id_producto) AS cantidad_productos
+FROM compras c
+JOIN compras_productos cp ON c.id_compra = cp.id_compra
+GROUP BY c.id_compra, c.fecha, c.id_cliente
+HAVING COUNT(cp.id_producto) > (
+  SELECT AVG(cantidad_productos)
+  FROM (
+    SELECT id_compra, COUNT(id_producto) AS cantidad_productos
+    FROM compras_productos
+    GROUP BY id_compra
+  ) AS subconsulta
+);
 ```
 
 Consultar los productos que se han vendido menos de la cantidad promedio de productos
 vendidos
 
 ```sql
-
+SELECT p.id_producto, p.nombre, SUM(cp.cantidad) AS cantidad_vendida
+FROM productos p
+JOIN compras_productos cp ON p.id_producto = cp.id_producto
+GROUP BY p.id_producto, p.nombre
+HAVING SUM(cp.cantidad) < (
+  SELECT AVG(cantidad_vendida)
+  FROM (
+    SELECT id_producto, SUM(cantidad) AS cantidad_vendida
+    FROM compras_productos
+    GROUP BY id_producto
+  ) AS subconsulta
+);
 ```
 
