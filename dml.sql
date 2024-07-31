@@ -18,9 +18,9 @@ INSERT INTO clientes (nombre, apellidos, celular, direccion, correo_electronico)
     ('Carlos', 'Rodríguez', 5555555555, 'Calle 789', 'carlos.rodriguez@live.com');
 
 INSERT INTO compras (id_cliente, fecha, medio_pago, comentario, estado) VALUES
-    (1, '2022-01-01', 'E', 'Compra en efectivo', 'A'),
-    (2, '2022-01-15', 'T', 'Compra con tarjeta', 'A'),
-    (3, '2022-02-01', 'E', 'Compra en efectivo', 'A');
+    (1, '2022-01-01', 'E', 'compro un televisor a 80 cuotas sin interes', 'A'),
+    (2, '2022-01-15', 'T', 'le compro una tablet a su mama para ver youtube', 'A'),
+    (3, '2022-02-01', 'E', 'compra de 2 polos, pago inmediato y en efectivo', 'A');
 
 INSERT INTO compras_productos (id_compra, id_producto, cantidad, total, estado) VALUES
     (1, 1, 2, 1600000.00, 1),

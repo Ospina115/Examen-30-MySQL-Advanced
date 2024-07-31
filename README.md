@@ -9,55 +9,68 @@ Joseph Samuel Ospina
 Consultar todos los productos y sus categorías
 
 ```sql
-
+SELECT id_producto, nombre, id_categoria, precio_venta, cantidad_stock, estado
+FROM productos;
 ```
 
 Consultar todas las compras y los clientes que las realizaron
 
 ```sql
-
+SELECT id_compra, fecha, id_cliente, comentario
+FROM compras;
 ```
 
 Consultar los productos comprados en una compra específica
 
 ```sql
-
+SELECT id_compra, id_producto, cantidad, total, estado
+FROM compras_productos
+WHERE id_compra = 1;
 ```
 
 Agregar un nuevo producto
 
 ```sql
-
+INSERT INTO productos (nombre, id_categoria, codigo_barras, precio_venta, cantidad_stock, estado) VALUES
+('Tablet Galaxy A10', 1,'8963487224684', '400000.00', 20, 1);
 ```
 
 Actualizar el stock de un producto
 
 ```sql
-
+UPDATE productos
+SET cantidad_stock = 13
+WHERE id_producto = 6;
 ```
 
 Consultar todas las compras de un cliente específico
 
 ```sql
-
+SELECT id_compra, fecha, medio_pago, comentario, estado
+FROM compras
+WHERE id_cliente = 1;
 ```
 
 Consultar todos los clientes y sus correos electrónicos
 
 ```sql
-
+SELECT id_cliente, nombre, apellidos, correo_electronico
+FROM clientes;
 ```
 
 Consultar la cantidad total de productos comprados en cada compra
 
 ```sql
-
+SELECT id_compra, id_producto, cantidad
+FROM compras_productos;
 ```
 
 Consultar las compras realizadas en un rango de fechas
 
 ```sql
-
+SELECT id_compra, fecha, id_cliente, comentario
+FROM compras
+WHERE fecha BETWEEN '2022-01-01' AND '2022-01-31';
 ```
 
 
